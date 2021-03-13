@@ -1,0 +1,62 @@
+# Create the Blog Database. 
+# There is used the character set utf8mb4 to support a wide range of characters
+CREATE SCHEMA `blog-demo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+# User Table to store user information of all the articles authors. 
+CREATE TABLE `blog-demo`.`users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(50) NULL DEFAULT NULL,
+  `last_name` VARCHAR(50) NULL DEFAULT NULL,
+  `email` VARCHAR(50) NULL,
+  `password_hash` VARCHAR(32) NOT NULL,
+  `profile_info` TEXT NULL DEFAULT NULL,
+  `registered_at` DATETIME NOT NULL,
+  `last_login` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uq_email` (`email` ASC) );
+
+
+  # Article Table to store the articles data
+  CREATE TABLE `blog-demo`.`articles` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT NOT NULL,
+  `title` VARCHAR(70) NOT NULL,
+  `perex` VARCHAR(100) NULL,
+  `content` TEXT NULL DEFAULT NULL,
+  `tags` VARCHAR(100) NULL,
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_user_id` (`user_id` ASC),
+  CONSTRAINT `fk_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `blog-demo`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+#Tags table to store the article Tags
+CREATE TABLE `blog-demo`.`tags` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(75) NOT NULL,
+  PRIMARY KEY (`id`));
+
+
+#Tags Article mapping table to store tags related to the article 
+CREATE TABLE `blog-demo`.`articles_tags` (
+  `article_id` BIGINT NOT NULL,
+  `tag_id` BIGINT NOT NULL,
+  PRIMARY KEY (`article_id`, `tag_id`),
+  INDEX `idx_article_id` (`article_id` ASC),
+  INDEX `idx_tag_id` (`tag_id` ASC),
+  CONSTRAINT `fk_article_id`
+    FOREIGN KEY (`article_id`)
+    REFERENCES `blog-demo`.`articles` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tag_id`
+    FOREIGN KEY (`tag_id`)
+    REFERENCES `blog-demo`.`tags` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);

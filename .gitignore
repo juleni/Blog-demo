@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+# Environment directories
+.env
+.vscode
+npm-debug.log*
+
+

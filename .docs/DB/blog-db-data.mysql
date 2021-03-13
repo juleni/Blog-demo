@@ -1,0 +1,20 @@
+﻿# Insert few users 
+INSERT INTO users(id, first_name, last_name, email, password_hash, profile_info, registered_at, last_login) 
+VALUES 
+
+(1,'John', 'Doe', 'johndoe@blog-demo.sk', 'pass', 'Default user for blog-demo application.', NOW(), NULL),
+(2,'Janko', 'Hra�ko', 'janohrach@blog-demo.sk', 'pass', 'Rozpr�vkov� mal� chlap�k.', NOW(), NULL),
+(3,'Tatiana', 'Tere�kovov�', 'tatiana@blog-demo.sk', 'pass', 'b�val� sovietska kozmonautka. V j�ni roku 1963 na kozmickej lodi Vostok 6 absolvovala 48 obletov Zeme, ako prv� �ena vo vesm�re. Jej let trval 70 hod�n a 41 min�t', NOW(), NULL),
+(4,'Vincent', 'Vega', 'vinco@blog-demo.sk', 'pass', 'A hitman and associate of Marsellus Wallace.', NOW(), NULL)
+
+# UserModel JSON object
+ {"firstName":"firstNameTest", 
+  "lastName": "lastNameTest", 
+  "email": "email@Test", 
+  "password_hash": "passwTest", 
+  "profile_info": "profileInfoTest"
+ }
+
+ {
+   "name":"firstNameTest"
+ }
