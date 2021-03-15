@@ -2,8 +2,11 @@
 /**
  * User object representation
  */
+const BasicModel = require('./BasicModel');
+
 class UserModel {
     constructor(firstName, lastName, email, passwordHash, profileInfo) {
+      this.id = BasicModel.NEW_ID;
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
@@ -11,8 +14,13 @@ class UserModel {
       this.profileInfo = profileInfo;
     }
 
+    get getEmptyUserModel() {
+      return new UserModel('', '', '', '', '');
+    }
+
     get toString() {
-        return '\nfirstName = ' + this.firstName + '\n' +
+        return '\nid = ' + this.id + '\n' +
+               'firstName = ' + this.firstName + '\n' +
                'lastName = ' + this.lastName + '\n' +
                'email = ' + this.email + '\n' +
                'passwordHash = ' + this.passwordHash + '\n' +

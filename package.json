@@ -4,6 +4,7 @@
   "description": "Demo project for simple Blog",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
@@ -13,11 +14,11 @@
   },
   "devDependencies": {},
   "scripts": {
+    "dev": "nodemon ./app.js localhost 3080",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "blog"
   ],
-  "author": "Julian Legeny",
-  "license": "MIT"
+  "author": "Julian Legeny"
 }

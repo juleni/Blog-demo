@@ -9,7 +9,7 @@ CREATE TABLE `blog-demo`.`users` (
   `first_name` VARCHAR(50) NULL DEFAULT NULL,
   `last_name` VARCHAR(50) NULL DEFAULT NULL,
   `email` VARCHAR(50) NULL,
-  `password_hash` VARCHAR(32) NOT NULL,
+  `password_hash` VARCHAR(64) NOT NULL,
   `profile_info` TEXT NULL DEFAULT NULL,
   `registered_at` DATETIME NOT NULL,
   `last_login` DATETIME NULL DEFAULT NULL,
@@ -66,8 +66,8 @@ INSERT INTO users(id, first_name, last_name, email, password_hash, profile_info,
 VALUES 
 
 (1,'John', 'Doe', 'johndoe@blog-demo.sk', 'pass', 'Default user for blog-demo application.', NOW(), NULL),
-(2,'Janko', 'Hraško', 'janohrach@blog-demo.sk', 'pass', 'Rozprávkový malý chlapík.', NOW(), NULL),
-(3,'Tatiana', 'Tereškovová', 'tatiana@blog-demo.sk', 'pass', 'bývalá sovietska kozmonautka. V júni roku 1963 na kozmickej lodi Vostok 6 absolvovala 48 obletov Zeme, ako prvá žena vo vesmíre. Jej let trval 70 hodín a 41 minút', NOW(), NULL),
+(2,'Janko', 'Hraï¿½ko', 'janohrach@blog-demo.sk', 'pass', 'Rozprï¿½vkovï¿½ malï¿½ chlapï¿½k.', NOW(), NULL),
+(3,'Tatiana', 'Tereï¿½kovovï¿½', 'tatiana@blog-demo.sk', 'pass', 'bï¿½valï¿½ sovietska kozmonautka. V jï¿½ni roku 1963 na kozmickej lodi Vostok 6 absolvovala 48 obletov Zeme, ako prvï¿½ ï¿½ena vo vesmï¿½re. Jej let trval 70 hodï¿½n a 41 minï¿½t', NOW(), NULL),
 (4,'Vincent', 'Vega', 'vinco@blog-demo.sk', 'pass', 'A hitman and associate of Marsellus Wallace.', NOW(), NULL)
 
 # Insert few articles

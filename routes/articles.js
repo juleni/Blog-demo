@@ -1,4 +1,6 @@
 const express = require('express');
+const ejs = require('ejs');
+const ArticleModel = require('../models/ArticleModel');
 const router = express.Router();
 const articleService = require('../services/articleService');
 
@@ -44,8 +46,16 @@ router.route(WITH_ID)
  */
 router.get('/', async function(req, res, next) {
   try {
-    console.log('=========> articles.js router.getMultiple: path= /');
-    res.json(await articleService.getMultiple(req.query.page));
+      console.log('=========> articles.js router.getMultiple: path= /');
+      var rows = await articleService.getMultiple(req.query.page);
+
+      //const html = await ejs.renderFile('./views/index.ejs', rows, {async: true});
+      //res.send(html);
+      res.render('index', {rows}); //, function (err, articles) {
+        //res.send(res.json(await articleService.getMultiple(req.query.page)));
+        // })
+      //, res.json(await articleService.getMultiple(req.query.page)));
+      //res.json(await articleService.getMultiple(req.query.page));
   } catch (err) {
     console.error(`Error while getting articles `, err.message);
     next(err);
@@ -86,7 +96,7 @@ router.put(articlePaths.UPDATE, async function(req, res, next) {
  */
 router.delete(articlePaths.DELETE, async function(req, res, next) {
   try {
-    console.log('=========> articles.js router.delete: path= ' + userPaths.DELETE);
+console.log('=========> articles.js router.delete: path= ' + userPaths.DELETE);
     res.json(await articleService.remove(req.params.id));
   } catch (err) {
     console.error(`Error while deleting article`, err.message);
@@ -96,5 +106,5 @@ router.delete(articlePaths.DELETE, async function(req, res, next) {
 
 module.exports = { 
   router: router,
-  articlePaths 
+  articlePaths
 };

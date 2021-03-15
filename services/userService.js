@@ -5,7 +5,7 @@
 const db = require('./database');
 const helper = require('../helper');
 const config = require('../config');
-const userModel = require('../models/UserModel');
+const UserModel = require('../models/UserModel');
 
 /**
  * Get multiple users for specified page
@@ -32,14 +32,79 @@ async function getMultiple(page = 1){
 }
 
 /**
+ * Get user by id
+ * 
+ * @param {*} email - id of the user
+ * @returns data - user or empty
+ */
+ async function getUserById(id){
+
+  const rows = await db.query(
+    `SELECT id, first_name, last_name, email, password_hash, profile_info, registered_at, last_login FROM users WHERE id=${id}`, 
+    //`SELECT id, first_name, last_name, email, password_hash, profile_info, registered_at, last_login FROM users WHERE id=?`, 
+    //[id] // commented becouse of the bug in mysql?
+    // https://stackoverflow.com/questions/65543753/error-incorrect-arguments-to-mysqld-stmt-execute
+  );
+  const data = helper.emptyOrRows(rows);
+  const message = null;
+  if (!data && data.length == 0) {
+      message = 'User data were not found ???'
+  }
+ 
+  var userModel = null;
+  if (data && data.length > 0) {
+    userModel = new UserModel(data[0].first_name, data[0].last_name, data[0].email, data[0].profile_info);
+    userModel.id = data[0].id;
+    userModel.passwordHash = data[0].password_hash;
+    userModel.registeredAt = data[0].registered_at;
+    userModel.lastLogin = data[0].last_login;
+  } else {
+    message = 'User data were not found ???'
+  }
+
+
+  return { 
+    userModel,
+    message 
+  }
+}
+
+
+/**
+ * Get user by email
+ * 
+ * @param {*} email - email of the user
+ * @returns data - user or empty
+ */
+ async function getUserByEmail(email){
+
+  const rows = await db.query(
+    `SELECT id, first_name, last_name, email, password_hash, registered_at FROM users WHERE email='${email}'`, 
+    //`SELECT id, first_name, last_name, email, registered_at FROM users WHERE email=?`, 
+    //[email] // commented becouse of the bug in mysql?
+    // https://stackoverflow.com/questions/65543753/error-incorrect-arguments-to-mysqld-stmt-execute
+  );
+  const data = helper.emptyOrRows(rows);
+  var userModel = null;
+  if (data && data.length > 0) {
+    userModel = new UserModel(data[0].first_name, data[0].last_name, data[0].email, '');
+    userModel.id = data[0].id;
+    userModel.passwordHash = data[0].password_hash;
+  }
+
+  return { userModel }
+}
+
+
+/**
  * Create new user
  * 
  * @param {*} userModel - user object that should be created
  * @returns message - error/success
  */
 async function create(userModel){
-  console.log('=========> userService.js create: userModel= ' + userModel);
-  
+  console.log('=========> userService.js create: userModel= ' + userModel.toString);
+
   //let user = new UserModel('Gyula', 'Bácsi', 'gyulabacsi@kermideretvar.hu', 'duloveheslo',
   //                         'Dula je jednoduchý chlapík z vidieka :-|')
   // console.log('=========> userModel= ' + user.toString);
@@ -47,12 +112,12 @@ async function create(userModel){
 
   const result = await db.query(
     `INSERT INTO users 
-     (first_name, last_name, email, password_hash, profile_info, registered_at) 
+     (first_name, last_name, email, password_hash, profile_info, registered_at, last_login) 
      VALUES ('${userModel.firstName}', '${userModel.lastName}', '${userModel.email}', 
-             '${userModel.passwordHash}', '${userModel.profileInfo}', NOW())`
-    //VALUES ('${user.firstName}', '${user.lastName}', '${user.email}', 
-    //  '${user.passwordHash}', '${user.profileInfo}', NOW())`
-    // VALUES (?, ?, ?, ?, ?)`, // commented becouse of the bug in mysql?
+             '${userModel.passwordHash}', '${userModel.profileInfo}', NOW(), NOW())`
+    // INSERT INTO users 
+    // (first_name, last_name, email, password_hash, profile_info, registered_at, last_login)
+    // VALUES (?, ?, ?, ?, ?, NOW(), NOW())`, // commented becouse of the bug in mysql?
     // https://stackoverflow.com/questions/65543753/error-incorrect-arguments-to-mysqld-stmt-execute
     // [
     //  userModel.firstName, userModel.lastName, userModel.email, 
@@ -63,10 +128,15 @@ async function create(userModel){
   let message = 'Error in creating user';
 
   if (result.affectedRows) {
+    // update ID of the user by inserted one
+    userModel.id = result.insertId;
     message = 'User created successfully';
   }
 
-  return {message};
+  return {
+    userModel,
+    message
+  };
 }
 
 /**
@@ -96,7 +166,10 @@ async function update(id, userModel){
     message = 'User updated successfully';
   }
 
-  return {message};
+  return {
+    userModel,
+    message
+  };
 }
 
 /**
@@ -122,6 +195,8 @@ async function update(id, userModel){
 
 
 module.exports = {
+  getUserById,
+  getUserByEmail,
   getMultiple,
   create,
   update,

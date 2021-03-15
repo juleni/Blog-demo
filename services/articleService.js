@@ -5,10 +5,44 @@
 const db = require('./database');
 const helper = require('../helper');
 const config = require('../config');
-const articleModel = require('../models/ArticleModel');
+const ArticleModel = require('../models/ArticleModel');
+
 
 /**
- * Get multiple articles for specified page
+ * Get article by id
+ * 
+ * @param id - article id
+ * @returns ArticleModel = article object
+ */
+ async function getArticleById(id){
+
+    const rows = await db.query(
+    `SELECT id, user_id, title, perex, tags, content, created_at, updated_at FROM articles WHERE id=${id}` 
+    //`SELECT id, title, perex, content, created_at, updated_at FROM articles WHERE id=?`, 
+    //[id] // commented becouse of the bug in mysql?
+    // https://stackoverflow.com/questions/65543753/error-incorrect-arguments-to-mysqld-stmt-execute
+  );
+  const data = helper.emptyOrRows(rows);
+  var message = null;
+  var articleModel = null;
+  if (data && data.length > 0) {
+    articleModel = new ArticleModel(data[0].user_id, data[0].title, data[0].perex, data[0].tags, data[0].content);
+    articleModel.id = data[0].id;
+    articleModel.createdAt = data[0].created_at;
+    articleModel.updatedAt = data[0].updated_at;
+  } else {
+    message = 'No article was found ???'
+  }
+
+  return {
+    articleModel,
+    message
+  }
+}
+
+
+/**
+ * Get multiple user's articles for specified page
  * 
  * @param userId - user id the articles will be retrieved for
  * @param {*} page - page number the articles will be retrieved for
@@ -17,8 +51,8 @@ const articleModel = require('../models/ArticleModel');
 async function getMultiple(userId, page = 1){
   const offset = helper.getOffset(page, config.appListPerPage);
 
-  const rows = await db.query(
-    `SELECT id, title, perex, content, created_at, updated_at FROM articles WHERE user_id=${userId} 
+    const rows = await db.query( // ${userId} 
+    `SELECT id, title, perex, content, created_at, updated_at FROM articles WHERE user_id=1 
     LIMIT ${offset}, ${config.appListPerPage}`, 
     //`SELECT id, title, perex, content, created_at, updated_at FROM articles WHERE user_id=? LIMIT ?, ?`, 
     //[userId, offset, config.appListPerPage] // commented becouse of the bug in mysql?
@@ -32,6 +66,39 @@ async function getMultiple(userId, page = 1){
     meta
   }
 }
+
+/**
+ * Get multiple all users articles for specified page
+ * 
+ * @param userId - user id the articles will be retrieved for
+ * @param {*} page - page number the articles will be retrieved for
+ * @returns list of articles or empty, page number
+ */
+ async function getMultiple(page = 1){
+  const offset = helper.getOffset(page, config.appListPerPage);
+
+    const rows = await db.query(
+    `SELECT id, title, perex, content, created_at, updated_at FROM articles ORDER BY created_at DESC 
+    LIMIT ${offset}, ${config.appListPerPage}`, 
+    //`SELECT id, title, perex, content, created_at, updated_at FROM articles ORDER BY created_at DES LIMIT ?, ?`, 
+    //[userId, offset, config.appListPerPage] // commented becouse of the bug in mysql?
+    // https://stackoverflow.com/questions/65543753/error-incorrect-arguments-to-mysqld-stmt-execute
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = {page};
+  var message = '';
+  if (!data && data.length == 0) {
+    message = 'No articles were found.'
+  }
+
+  return {
+    data,
+    message,
+    meta
+  }
+}
+
+
 
 /**
  * Create new article
@@ -122,6 +189,7 @@ async function update(id, articleModel){
 }
 
 module.exports = {
+  getArticleById,
   getMultiple,
   create,
   update,

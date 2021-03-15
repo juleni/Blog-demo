@@ -35,7 +35,7 @@ body {
 }
 
 .nav div.logo a:hover {
-    color: #00E676;
+    color: #d4d19de0;
 }
 
 .nav div.main_list {
@@ -67,7 +67,7 @@ body {
 }
 
 .nav div.main_list ul li a:hover {
-    color: #00E676;
+    color: #c73a21ee;
 }
 
 
@@ -80,6 +80,33 @@ body {
     background-image: url("../img/header.jpg");
     background-position: center top;
 	background-size:cover;
+}
+
+.about {
+    width: 100%;
+    height: 100vh;
+    background-image: url("../img/about.jpg");
+    background-position: center top;
+	background-size:cover;
+}
+
+.dashboard {
+    width: 100%;
+    height: 30vh;
+    background-image: url("../img/dashboard.jpg");
+    background-position: center top;
+	background-size:cover;
+}
+
+#emptyspace {
+    padding-top: 20%;
+}
+
+#loginbox {
+    align-self: center;
+    background-color: rgb(209, 176, 138);
+    border-radius: 2px;
+
 }
 
 .navTrigger {
@@ -342,14 +369,9 @@ body {
     background-color: #111;
 }
 
-
-
-
-
-
 .myH2 {
-	text-align:center;
-	font-size: 4rem;
+	text-align:left;
+	font-size: 3rem;
 }
 .myP {
 	text-align: justify;
@@ -362,3 +384,32 @@ body {
 		padding:2%;
 	}
 }
+
+.login-container {
+    font-size: 16px;
+    height: 300px;
+    width: 320px;
+    padding: 1%;
+    margin: 0;
+    border: 3px solid rgb(83, 46, 4);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+
+  .signup-container {
+    font-size: 16px;
+    height: 500px;
+    width: 400px;
+    padding: 1%;
+    margin: 0;
+    border: 3px solid rgb(83, 46, 4);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }

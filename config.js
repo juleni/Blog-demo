@@ -19,6 +19,7 @@ const APP_HOST_DEFAULT = 'localhost';
 const APP_PORT_DEFAULT = 3000;
 const APP_LIST_PER_PAGE_DEFAULT = 10;
 const APP_SECRET_KEY_DEFAULT = 'secret-key';
+const APP_SALT_ROUNDS_DEFAULT = 10;
 
 const env = process.env;
 const config = {
@@ -36,7 +37,8 @@ const config = {
     appHost: env.APP_HOST || APP_HOST_DEFAULT,
     appPort: env.APP_PORT || APP_PORT_DEFAULT,
     appListPerPage: env.APP_LIST_PER_PAGE_DEFAULT || APP_LIST_PER_PAGE_DEFAULT,
-    secretKey: env.APP_SECRET_KEY || APP_SECRET_KEY_DEFAULT
+    secretKey: env.APP_SECRET_KEY || APP_SECRET_KEY_DEFAULT,
+    saltRounds: env.APP_SALT_ROUNDS || APP_SALT_ROUNDS_DEFAULT,
 };
 
 module.exports = config;

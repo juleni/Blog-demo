@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <!-- Header -->
+    <%- include('partials/header.ejs') %>
+
+<body>    
+    <!-- Navigation -->
+    <%- include('partials/navbar.ejs') %>
+
+    <section class="home">
+
+        <div class="container">
+            <div id="emptyspace"></div>
+            <div id="loginbox" class="signup-container">
+                <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Sign Up</div>
+                    </div>
+    
+                    <div style="padding-top:20px" class="panel-body" >
+    
+    
+                        <form id="signupform" class="form-horizontal" role="form" method="POST" action="/signup">
+                            
+                            <div id="signupalert" style="<%if(!data || !data.message){%> display:none <%}%>" class="alert alert-danger">
+                                <% if (data || data.message){%>
+                                <span><%=data.message%></span>
+                                <%}%>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="col-md-4 control-label">Email</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                </div>
+                            </div>
+                                
+                            <div class="form-group">
+                                <label for="password" class="col-md-4 control-label">Password</label>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="repassword" class="col-md-4 control-label">Re-Type</label>
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" name="repasswd" placeholder="Re-Type Password">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="firstname" class="col-md-4 control-label">First Name</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastname" class="col-md-4 control-label">Last Name</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                </div>
+                            </div>
+    
+                            <div style="margin-top:10px" class="form-group">
+                                <!-- Button -->
+    
+                                <div class="col-sm-12 controls">
+                                  <input id="btn-signup" type="submit" class="btn btn-danger" value="Sign Up" />
+    
+                                </div>
+                            </div>
+    
+    
+                            <div class="form-group">
+                                <div class="col-md-12 control">
+                                    <div style="border-top: 1px solid#888; padding-top:10px; font-size:90%" >
+                                        Do you have a question?
+                                    <a href="mailto:blogdemo@blogdemo.app?subject=Question%20to%20the%20Blog%20Demo">
+                                        Ask Here
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+    <!-- Header -->
+    <%- include('../partials/header.ejs') %>
+
+  <body>
+    <!-- Navigation -->
+    <%- include('partials/anavbar.ejs') %>
+
+    <section class="dashboard">
+    </section>
+
+    <div class="container">
+        <div>
+            <!-- just to make scrolling effect possible -->
+            <h2 class="myH2" id="article-list">Article Detail</h2>
+
+            <form id="updatearticleform" class="form-horizontal" role="form" method="POST" action="/articles/<%= rows.articleModel.id %>">
+                
+                
+                <div id="updatearticlealert" style="<%if(!rows || !rows.message){%> display:none <%}%>" class="alert alert-danger">
+                    <% if (rows || rows.message) { %>
+                    <span><%= rows.message %></span>
+                    <%}%>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstname" class="col-md-4 control-label">Title</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="title" value="<%= rows.articleModel.title %>" placeholder="Article title">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname" class="col-md-4 control-label">Perex</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="perex" value="<%= rows.articleModel.perex %>" placeholder="Article perex">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="col-md-4 control-label">Tags</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tags" value="<%= rows.articleModel.tags %>" placeholder="Article tags">
+                    </div>
+                </div>
+                    
+                <div class="form-group">
+                    <label for="profileinfo" class="col-md-4 control-label">Content</label>
+                    <div class="col-md-12">
+                        <textarea class="form-control" placeholder="Write article content" id="content" style="height: 100px"
+                                  name="content" value="<%= rows.articleModel.content %>"></textarea>
+                    </div>
+                </div>
+
+                <div style="margin-top:10px" class="form-group">
+                    <!-- Button -->
+
+                    <div class="col-sm-12 controls">
+                      <input id="btn-signup" type="submit" class="btn btn-danger" value="Update Article" />
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Footer -->
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>
